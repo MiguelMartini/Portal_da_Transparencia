@@ -1,12 +1,11 @@
 import './App.css'
+import Home from './pages/Home/Home'
 
 function App() {
 
   return (
     <>
-      <div>
-        <p>Portal da Transparência</p>
-      </div>
+      <Home/>
     </>
   )
 }
