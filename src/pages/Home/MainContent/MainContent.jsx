@@ -1,13 +1,16 @@
 import React from 'react'
 import AlunosCard from './AlunosCard'
 import avatar from '../../../assets/avatar-15.png'
+import Simulacao from './Simulacao'
 
 function MainContent() {
   return (
     <div>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20'>
           <p className='text-2xl text-gray-700 font-bold'>Simulação</p>
-             <div className='border-t border-gray-200 mt-8 pt-8 text-center px-4'></div>
+             <div className='border-t border-gray-200 mt-8 pt-8 text-center px-4'>
+              <Simulacao/>
+             </div>
             <p className='text-2xl text-gray-700 font-bold'>Sobre</p>
              <div className='border-t border-gray-200 mt-8 pt-8 text-center px-4'></div>
             <p className='text-2xl text-gray-700 font-bold'>Alunos</p>
