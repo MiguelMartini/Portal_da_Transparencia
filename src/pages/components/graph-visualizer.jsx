@@ -95,12 +95,12 @@ export function GraphVisualizer({
   }, [connections, highlightedEdgesSet]);
 
   return (
-    <div style={{ width: '100%', height: '600px' }}>
+    <div style={{ width: '100%', height: '800px' }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
         fitView
-        minZoom={0.5}
+        minZoom={0.2}
         maxZoom={2}
       >
         <Background />
