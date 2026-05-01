@@ -1,17 +1,9 @@
 import React, { useMemo } from 'react';
-import ReactFlow, {
-  Background,
-  Controls,
-  MarkerType
-} from 'reactflow';
+import ReactFlow, { Background, Controls, MarkerType} from 'reactflow';
 import 'reactflow/dist/style.css';
 
-function GraphVisualizer({
-  capitals = [],
-  connections = [],
-  highlightedPath = []
-}) {
-
+function GraphVisualizer({ capitals = [], connections = [], highlightedPath = []}) {
+// memoriza renderizacao das arestas do caminho
   const highlightedEdgesSet = useMemo(() => {
     const set = new Set();
     for (let i = 0; i < highlightedPath.length - 1; i++) {
@@ -23,6 +15,7 @@ function GraphVisualizer({
     return set;
   }, [highlightedPath]);
 
+// memoriza renderizacao dos vertices
   const nodes = useMemo(() => {
     return capitals.map((cap) => {
       const isInPath = highlightedPath.includes(cap.id);
@@ -56,6 +49,7 @@ function GraphVisualizer({
     });
   }, [capitals, highlightedPath]);
 
+// memoriaza as arestas
   const edges = useMemo(() => {
     return connections.map((conn) => {
       const isHighlighted = highlightedEdgesSet.has(`${conn.from}-${conn.to}`);
