@@ -7,7 +7,7 @@ function Home() {
   return (
     <div className='min-h-screen flex flex-col'>
       <Header/>
-      <div className='flex-1 bg-gradient-to-br from-blue-50 to-slate-100'>
+      <div className='flex-1 bg-linear-to-br from-blue-50 to-slate-100'>
         <div className="max-w-6xl mx-auto px-6 py-12">
           {/* Hero Section */}
           <div className="text-center space-y-6 mb-12">
@@ -15,7 +15,7 @@ function Home() {
               Sistema de Rotas de Entrega
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Ferramenta educacional para visualização e cálculo de rotas ótimas entre as capitais brasileiras usando o algoritmo de Dijkstra
+              Ferramenta educacional para visualização e cálculo de rotas ótimas entre as capitais brasileiras usando diferentes algoritmos vistso na disciplinade Inteligência Artificial
             </p>
             <div className="pt-4">
               <Link
@@ -47,9 +47,9 @@ function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-[#3F3F3F] text-center mb-3">Algoritmo de Dijkstra</h3>
+              <h3 className="text-xl font-bold text-[#3F3F3F] text-center mb-3">Algoritmos</h3>
               <p className="text-gray-600 text-center">
-                Cálculo preciso da rota mais eficiente utilizando o clássico algoritmo de Dijkstra para encontrar o caminho mais curto
+                Diferentes algoritmos para calcular rotas: A*, A* com Kruskal, A* com algoritmo Genético, Kruskal (MST) e algoritmo Genético.
               </p>
             </div>
 
@@ -77,7 +77,7 @@ function Home() {
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="flex gap-4">
-                <div className="flex-shrink-0 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                <div className="shrink-0 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
                   1
                 </div>
                 <div>
@@ -89,7 +89,7 @@ function Home() {
               </div>
 
               <div className="flex gap-4">
-                <div className="flex-shrink-0 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                <div className="shrink-0 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
                   2
                 </div>
                 <div>
@@ -101,7 +101,7 @@ function Home() {
               </div>
 
               <div className="flex gap-4">
-                <div className="flex-shrink-0 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                <div className="shrink-0 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
                   3
                 </div>
                 <div>
@@ -113,7 +113,7 @@ function Home() {
               </div>
 
               <div className="flex gap-4">
-                <div className="flex-shrink-0 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                <div className="shrink-0 w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
                   4
                 </div>
                 <div>
@@ -123,39 +123,6 @@ function Home() {
                   </p>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Estatísticas */}
-          <div className="grid md:grid-cols-3 gap-8 mt-16">
-            <div className="bg-white p-6 rounded-lg shadow-md text-center">
-              <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                </svg>
-              </div>
-              <div className="text-5xl font-bold text-[#3F3F3F] mb-2">27</div>
-              <p className="text-gray-600 font-medium">Capitais Brasileiras</p>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-md text-center">
-              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                </svg>
-              </div>
-              <div className="text-5xl font-bold text-[#3F3F3F] mb-2">100+</div>
-              <p className="text-gray-600 font-medium">Conexões Disponíveis</p>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-md text-center">
-              <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-10 h-10 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <div className="text-5xl font-bold text-[#3F3F3F] mb-2">O(n²)</div>
-              <p className="text-gray-600 font-medium">Complexidade do Algoritmo</p>
             </div>
           </div>
         </div>

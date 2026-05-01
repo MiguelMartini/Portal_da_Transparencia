@@ -1,106 +1,58 @@
-// Dados das capitais brasileiras com suas conexões e distâncias (em km)
+// Mapa fixo das capitais
+export const capitalByState = {
+  RS: { id: 'porto-alegre', name: 'Porto Alegre', x: 460, y: 610 },
+  SC: { id: 'florianopolis', name: 'Florianópolis', x: 500, y: 570 },
+  PR: { id: 'curitiba', name: 'Curitiba', x: 480, y: 530 },
+  SP: { id: 'sao-paulo', name: 'São Paulo', x: 500, y: 480 },
+  RJ: { id: 'rio-de-janeiro', name: 'Rio de Janeiro', x: 560, y: 470 },
+  MG: { id: 'belo-horizonte', name: 'Belo Horizonte', x: 540, y: 420 },
+  ES: { id: 'vitoria', name: 'Vitória', x: 600, y: 430 },
+  MS: { id: 'campo-grande', name: 'Campo Grande', x: 350, y: 420 },
+  MT: { id: 'cuiaba', name: 'Cuiabá', x: 300, y: 330 },
+  GO: { id: 'goiania', name: 'Goiânia', x: 450, y: 380 },
+  DF: { id: 'brasilia', name: 'Brasília', x: 480, y: 360 },
+  BA: { id: 'salvador', name: 'Salvador', x: 630, y: 350 },
+  AL: { id: 'maceio', name: 'Maceió', x: 750, y: 280 },
+  SE: { id: 'aracaju', name: 'Aracaju', x: 720, y: 330 },
+  PE: { id: 'recife', name: 'Recife', x: 680, y: 260 },
+  PB: { id: 'joao-pessoa', name: 'João Pessoa', x: 700, y: 220 },
+  RN: { id: 'natal', name: 'Natal', x: 700, y: 180 },
+  CE: { id: 'fortaleza', name: 'Fortaleza', x: 600, y: 180 },
+  PI: { id: 'teresina', name: 'Teresina', x: 520, y: 200 },
+  MA: { id: 'sao-luis', name: 'São Luís', x: 500, y: 150 },
+  TO: { id: 'palmas', name: 'Palmas', x: 420, y: 280 },
+  PA: { id: 'belem', name: 'Belém', x: 400, y: 120 },
+  AP: { id: 'macapa', name: 'Macapá', x: 450, y: 80 },
+  RR: { id: 'boa-vista', name: 'Boa Vista', x: 250, y: 50 },
+  AM: { id: 'manaus', name: 'Manaus', x: 200, y: 100 },
+  RO: { id: 'porto-velho', name: 'Porto Velho', x: 180, y: 180 },
+  AC: { id: 'rio-branco', name: 'Rio Branco', x: 100, y: 150 },
+};
 
-export const capitals = [
-  // Norte
-  { id: 'manaus', name: 'Manaus', state: 'AM', x: 200, y: 100 },
-  { id: 'rio-branco', name: 'Rio Branco', state: 'AC', x: 100, y: 150 },
-  { id: 'porto-velho', name: 'Porto Velho', state: 'RO', x: 180, y: 180 },
-  { id: 'boa-vista', name: 'Boa Vista', state: 'RR', x: 250, y: 50 },
-  { id: 'belem', name: 'Belém', state: 'PA', x: 400, y: 120 },
-  { id: 'macapa', name: 'Macapá', state: 'AP', x: 450, y: 80 },
-  { id: 'palmas', name: 'Palmas', state: 'TO', x: 420, y: 280 },
-
-  // Nordeste
-  { id: 'sao-luis', name: 'São Luís', state: 'MA', x: 500, y: 150 },
-  { id: 'teresina', name: 'Teresina', state: 'PI', x: 520, y: 200 },
-  { id: 'fortaleza', name: 'Fortaleza', state: 'CE', x: 600, y: 180 },
-  { id: 'natal', name: 'Natal', state: 'RN', x: 650, y: 220 },
-  { id: 'joao-pessoa', name: 'João Pessoa', state: 'PB', x: 670, y: 240 },
-  { id: 'recife', name: 'Recife', state: 'PE', x: 680, y: 260 },
-  { id: 'maceio', name: 'Maceió', state: 'AL', x: 680, y: 290 },
-  { id: 'aracaju', name: 'Aracaju', state: 'SE', x: 670, y: 310 },
-  { id: 'salvador', name: 'Salvador', state: 'BA', x: 630, y: 350 },
-
-  // Centro-Oeste
-  { id: 'cuiaba', name: 'Cuiabá', state: 'MT', x: 300, y: 330 },
-  { id: 'campo-grande', name: 'Campo Grande', state: 'MS', x: 350, y: 420 },
-  { id: 'goiania', name: 'Goiânia', state: 'GO', x: 450, y: 380 },
-  { id: 'brasilia', name: 'Brasília', state: 'DF', x: 480, y: 360 },
-
-  // Sudeste
-  { id: 'belo-horizonte', name: 'Belo Horizonte', state: 'MG', x: 540, y: 420 },
-  { id: 'vitoria', name: 'Vitória', state: 'ES', x: 600, y: 430 },
-  { id: 'rio-de-janeiro', name: 'Rio de Janeiro', state: 'RJ', x: 560, y: 470 },
-  { id: 'sao-paulo', name: 'São Paulo', state: 'SP', x: 500, y: 480 },
-
-  // Sul
-  { id: 'curitiba', name: 'Curitiba', state: 'PR', x: 480, y: 530 },
-  { id: 'florianopolis', name: 'Florianópolis', state: 'SC', x: 500, y: 570 },
-  { id: 'porto-alegre', name: 'Porto Alegre', state: 'RS', x: 460, y: 610 },
-];
-
-export const connections = [
-  // Região Norte
-  { from: 'manaus', to: 'boa-vista', distance: 785 },
-  { from: 'manaus', to: 'porto-velho', distance: 901 },
-  { from: 'manaus', to: 'rio-branco', distance: 1445 },
-  { from: 'manaus', to: 'belem', distance: 1646 },
-  { from: 'rio-branco', to: 'porto-velho', distance: 544 },
-  { from: 'porto-velho', to: 'cuiaba', distance: 1456 },
-  { from: 'belem', to: 'macapa', distance: 600 },
-  { from: 'belem', to: 'sao-luis', distance: 806 },
-  { from: 'belem', to: 'palmas', distance: 1298 },
-
-  // Nordeste
-  { from: 'sao-luis', to: 'teresina', distance: 446 },
-  { from: 'teresina', to: 'fortaleza', distance: 634 },
-  { from: 'fortaleza', to: 'natal', distance: 537 },
-  { from: 'natal', to: 'joao-pessoa', distance: 185 },
-  { from: 'joao-pessoa', to: 'recife', distance: 120 },
-  { from: 'recife', to: 'maceio', distance: 285 },
-  { from: 'maceio', to: 'aracaju', distance: 294 },
-  { from: 'aracaju', to: 'salvador', distance: 356 },
-  { from: 'salvador', to: 'brasilia', distance: 1446 },
-  { from: 'teresina', to: 'palmas', distance: 1031 },
-
-  // Centro-Oeste
-  { from: 'palmas', to: 'brasilia', distance: 973 },
-  { from: 'palmas', to: 'goiania', distance: 700 },
-  { from: 'cuiaba', to: 'goiania', distance: 934 },
-  { from: 'cuiaba', to: 'campo-grande', distance: 694 },
-  { from: 'campo-grande', to: 'goiania', distance: 935 },
-  { from: 'goiania', to: 'brasilia', distance: 209 },
-  { from: 'brasilia', to: 'belo-horizonte', distance: 741 },
-
-  // Sudeste
-  { from: 'belo-horizonte', to: 'vitoria', distance: 524 },
-  { from: 'belo-horizonte', to: 'rio-de-janeiro', distance: 434 },
-  { from: 'belo-horizonte', to: 'sao-paulo', distance: 586 },
-  { from: 'vitoria', to: 'rio-de-janeiro', distance: 521 },
-  { from: 'rio-de-janeiro', to: 'sao-paulo', distance: 429 },
-  { from: 'sao-paulo', to: 'curitiba', distance: 408 },
-  { from: 'campo-grande', to: 'sao-paulo', distance: 1014 },
-
-  // Sul
-  { from: 'curitiba', to: 'florianopolis', distance: 300 },
-  { from: 'florianopolis', to: 'porto-alegre', distance: 476 },
-  { from: 'curitiba', to: 'porto-alegre', distance: 711 },
-];
-
-// Criar grafo bidirecional (adicionar conexões reversas)
-export const getGraph = () => {
+// Função correta para construir o grafo a partir da API
+export const buildGraphData = (lista_adjacencias) => {
   const graph = new Map();
 
-  // Inicializar todos os nós
-  capitals.forEach(capital => {
-    graph.set(capital.id, new Map());
+  // criar nós
+  Object.keys(lista_adjacencias).forEach((uf) => {
+    graph.set(uf, new Map());
   });
 
-  // Adicionar todas as conexões (bidirecional)
-  connections.forEach(conn => {
-    graph.get(conn.from)?.set(conn.to, conn.distance);
-    graph.get(conn.to)?.set(conn.from, conn.distance);
+  // criar conexões bidirecionais
+  Object.entries(lista_adjacencias).forEach(([from, neighbors]) => {
+    Object.entries(neighbors).forEach(([to, distance]) => {
+      graph.get(from).set(to, distance);
+      graph.get(to).set(from, distance);
+    });
   });
 
-  return graph;
+  // montar capitais para renderização
+  const capitals = Object.keys(lista_adjacencias).map((uf) => ({
+    id: uf,
+    name: capitalByState[uf].name,
+    x: capitalByState[uf].x,
+    y: capitalByState[uf].y,
+  }));
+
+  return { graph, capitals };
 };

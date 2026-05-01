@@ -1,196 +1,157 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Header from './Home/Header.jsx'
 import Footer from './Home/Footer.jsx'
 import { GraphVisualizer } from '../pages/components/graph-visualizer.jsx'
-import { capitals, getGraph } from '../pages/data/capitals.js'
-import { dijkstra } from '../pages/utils/dijkstra.js'
+import axios from "axios";
+import { adaptGraphData } from './utils/graphAdapter.js'
 
 function Grafo() {
   const [origin, setOrigin] = useState('')
   const [destination, setDestination] = useState('')
   const [result, setResult] = useState(null)
 
-  const sortedCapitals = [...capitals].sort((a, b) =>
-    a.name.localeCompare(b.name)
-  )
+  const [capitals, setCapitals] = useState([])
+  const [connections, setConnections] = useState([])
 
-  const calculateRoute = () => {
-    if (!origin || !destination) return
-
-    if (origin === destination) {
-      setResult(null)
-      return
-    }
-
-    const graph = getGraph()
-    const pathResult = dijkstra(graph, origin, destination)
-
-    if (pathResult) {
-      setResult({
-        path: pathResult.path,
-        distance: pathResult.distance,
+  // 🔥 Carregar grafo do backend
+  useEffect(() => {
+    axios.get("http://127.0.0.1:8000/grafo")
+      .then(res => {
+        const { capitals, connections } = adaptGraphData(res.data)
+        setCapitals(capitals)
+        setConnections(connections)
       })
-    } else {
-      setResult(null)
-    }
+      .catch(err => console.log(err))
+  }, [])
+
+  // 🔥 Buscar rota
+  const connect = () => {
+    axios.get("http://127.0.0.1:8000/rota/kruskal", {
+      params: {
+        start: origin,
+        end: destination
+      }
+    })
+    .then(res => {
+      setResult(res.data)
+    })
+    .catch(err => console.log(err.response?.data))
   }
 
-  const getCapitalName = (id) => {
-    const capital = capitals.find(c => c.id === id)
-    return capital ? `${capital.name} - ${capital.state}` : id
-  }
 
-  const resetForm = () => {
+  // 🔥 Limpar tudo
+  const clear = () => {
     setOrigin('')
     setDestination('')
     setResult(null)
   }
 
+  // 🔥 Nome da capital
+  const getCapitalName = (id) => {
+    const cap = capitals.find(c => c.id === id)
+    return cap ? cap.name : id
+  }
+
   return (
     <div className='min-h-screen flex flex-col'>
       <Header/>
-      <div className='flex-1 bg-gradient-to-br from-blue-50 to-slate-100 p-6'>
-        <div className="max-w-[1600px] mx-auto">
+
+      <div className='flex-1 bg-linear-to-br from-blue-50 to-slate-100 p-6'>
+        <div className="max-w-400 mx-auto">
           <div className="grid lg:grid-cols-3 gap-6">
-            {/* Painel de Controle */}
+
+            {/* Painel */}
             <div className="lg:col-span-1 space-y-4">
               <div className="bg-white rounded-lg shadow-md p-6">
-                <div className="mb-4">
-                  <h2 className="text-2xl font-bold text-[#3F3F3F] flex items-center gap-2">
-                    <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    Configuração da Rota
-                  </h2>
-                  <p className="text-gray-600 mt-2">Selecione as capitais de origem e destino</p>
-                </div>
 
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-[#3F3F3F] mb-2">
-                      Origem
-                    </label>
-                    <select
-                      value={origin}
-                      onChange={(e) => setOrigin(e.target.value)}
-                      className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
-                    >
-                      <option value="">Selecione a origem</option>
-                      {sortedCapitals.map(capital => (
-                        <option key={capital.id} value={capital.id}>
-                          {capital.name} - {capital.state}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                <h2 className="text-2xl font-bold text-[#3F3F3F] mb-4">
+                  Configuração da Rota
+                </h2>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-[#3F3F3F] mb-2">
-                      Destino
-                    </label>
-                    <select
-                      value={destination}
-                      onChange={(e) => setDestination(e.target.value)}
-                      className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
-                    >
-                      <option value="">Selecione o destino</option>
-                      {sortedCapitals.map(capital => (
-                        <option key={capital.id} value={capital.id}>
-                          {capital.name} - {capital.state}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                {/* Origem */}
+                <select
+                  value={origin}
+                  onChange={(e) => setOrigin(e.target.value)}
+                  className="w-full p-3 border mb-3 rounded-lg"
+                >
+                  <option value="">Selecione a origem</option>
+                  {capitals.map(c => (
+                    <option key={c.id} value={c.id}>
+                      {c.name} ({c.state})
+                    </option>
+                  ))}
+                </select>
 
-                  <div className="flex gap-2">
-                    <button
-                      onClick={calculateRoute}
-                      disabled={!origin || !destination || origin === destination}
-                      className="flex-1 bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
-                    >
-                      Calcular Rota
-                    </button>
-                    <button
-                      onClick={resetForm}
-                      className="px-6 bg-gray-200 text-[#3F3F3F] font-semibold py-3 rounded-lg hover:bg-gray-300 transition-colors"
-                    >
-                      Limpar
-                    </button>
-                  </div>
+                {/* Destino */}
+                <select
+                  value={destination}
+                  onChange={(e) => setDestination(e.target.value)}
+                  className="w-full p-3 border mb-4 rounded-lg"
+                >
+                  <option value="">Selecione o destino</option>
+                  {capitals.map(c => (
+                    <option key={c.id} value={c.id}>
+                      {c.name} ({c.state})
+                    </option>
+                  ))}
+                </select>
+
+                {/* Botões */}
+                <div className="flex gap-2">
+                  <button
+                    onClick={connect}
+                    disabled={!origin || !destination || origin === destination}
+                    className="flex-1 bg-blue-600 text-white py-3 rounded-lg disabled:bg-gray-300"
+                  >
+                    Calcular Rota
+                  </button>
+
+                  <button
+                    onClick={clear}
+                    className="px-6 bg-gray-200 py-3 rounded-lg"
+                  >
+                    Limpar
+                  </button>
                 </div>
               </div>
 
               {/* Resultado */}
               {result && (
-                <div className="bg-green-50 border-2 border-green-300 rounded-lg shadow-md p-6">
-                  <h3 className="text-xl font-bold text-green-900 mb-2">
-                    Melhor Rota Encontrada
+                <div className="bg-green-50 border-2 border-green-300 rounded-lg p-6">
+                  <h3 className="text-xl font-bold mb-2">
+                    Melhor Rota
                   </h3>
-                  <p className="text-green-700 font-semibold mb-4">
-                    Distância total: {result.distance.toFixed(0)} km
+
+                  <p className="mb-3">
+                    Custo: R${(result.cost).toFixed(2)}
                   </p>
 
-                  <div className="space-y-3">
-                    <h4 className="font-semibold text-green-900">
-                      Caminho (em ordem):
-                    </h4>
-                    <div className="space-y-2">
-                      {result.path.map((capitalId, index) => (
-                        <div
-                          key={capitalId}
-                          className="flex items-center gap-3"
-                        >
-                          <span className="flex items-center justify-center w-8 h-8 rounded-full bg-green-600 text-white font-bold text-sm">
-                            {index + 1}
-                          </span>
-                          <span className="text-green-900 font-medium">
-                            {getCapitalName(capitalId)}
-                          </span>
-                        </div>
-                      ))}
+                  {result.path.map((id, index) => (
+                    <div key={id}>
+                      {index + 1}. {getCapitalName(id)}
                     </div>
-                    <div className="pt-3 border-t-2 border-green-200 mt-4">
-                      <p className="text-green-800 font-semibold">
-                        Paradas: {result.path.length} capitais
-                      </p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               )}
-
-              {/* Informações */}
-              <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-4">
-                <div className="flex gap-3">
-                  <svg className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <p className="text-blue-900 text-sm">
-                    O grafo mostra todas as 27 capitais brasileiras. A melhor rota é calculada
-                    usando o algoritmo de Dijkstra e aparece destacada em{' '}
-                    <span className="text-green-600 font-bold">verde</span>.
-                  </p>
-                </div>
-              </div>
             </div>
 
-            {/* Visualização do Grafo */}
+            {/* Grafo */}
             <div className="lg:col-span-2">
               <div className="bg-white rounded-lg shadow-md p-6 h-[850px]">
-                <div className="mb-4">
-                  <h2 className="text-2xl font-bold text-[#3F3F3F]">Grafo de Rotas entre Capitais</h2>
-                  <p className="text-gray-600 mt-1">
-                    Visualização das conexões e distâncias entre as capitais brasileiras
-                  </p>
-                </div>
-                <div className="h-[calc(100%-80px)]">
-                  <GraphVisualizer highlightedPath={result?.path || []} />
-                </div>
+
+                <GraphVisualizer 
+                  capitals={capitals}
+                  connections={connections}
+                  highlightedPath={result?.path || []} 
+                />
+
               </div>
             </div>
+
           </div>
         </div>
       </div>
+
       <Footer/>
     </div>
   )
