@@ -3,6 +3,8 @@ function RouteConfig({
   setOrigin,
   destination,
   setDestination,
+  algorithm,
+  setAlgorithm,
   capitals,
   connect,
   clear,
@@ -41,23 +43,32 @@ function RouteConfig({
         ))}
       </select>
 
+      {/* Algoritmo */}
+
+      <select
+        value={algorithm}
+        onChange={(e) => setAlgorithm(e.target.value)}
+        className="w-full p-3 border mb-4 rounded-lg"
+      >
+        <option value="">Selecione o algoritmo</option>
+        <option value="A-Estrela">A* (A Estrela)</option>
+        <option value="kruskal">Kruskal</option>
+      </select>
+
       <div className="flex gap-2">
         <button
           onClick={connect}
-          disabled={!origin || !destination || origin === destination}
+          disabled={!origin || !destination || !algorithm || origin === destination}
           className="flex-1 bg-blue-600 text-white py-3 rounded-lg disabled:bg-gray-300"
         >
           Calcular Rota
         </button>
 
-        <button
-          onClick={clear}
-          className="px-6 bg-gray-200 py-3 rounded-lg"
-        >
+        <button onClick={clear} className="px-6 bg-gray-200 py-3 rounded-lg">
           Limpar
         </button>
       </div>
     </div>
-  )
+  );
 }
-export default RouteConfig
+export default RouteConfig;
