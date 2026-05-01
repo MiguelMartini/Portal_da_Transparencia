@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "./Home/Header.jsx";
 import Footer from "./Home/Footer.jsx";
-import { GraphVisualizer } from "../pages/components/graph-visualizer.jsx";
+import GraphVisualizer from "./components/GraphVisualizer.jsx";
 import { adaptGraphData } from "./utils/graphAdapter.js";
 import { Spinner } from "@/Components/ui/spinner.jsx";
 import RouteConfig from "./components/RouteConfig.jsx";
@@ -40,10 +40,26 @@ function Grafo() {
       const normalized = algorithm.trim().toLowerCase();   
       const data = await selectAlgorithm(normalized, origin, destination)
       setResult(data)
+      console.log("Teste:",data?.path)
     } catch (err) {
       console.log(err.response?.data);
     }
   };
+
+  const parsePath = (rawPath) => {
+  if (!rawPath) return [];
+
+  const nodes = [];
+
+  rawPath.forEach((item, index) => {
+    const [from, to] = item.split(" - ");
+
+    if (index === 0) nodes.push(from); // primeiro nó
+    nodes.push(to); // próximos nós
+  });
+
+  return nodes;
+};
 
   const clear = () => {
     setOrigin("");
@@ -100,11 +116,13 @@ function Grafo() {
             {/* Grafo */}
             <div className="lg:col-span-2">
               <div className="bg-white rounded-lg shadow-md p-6 h-212.5">
+                {console.log("PATH FINAL:", result?.path)}
                 {capitals.length > 0 && connections.length > 0 ? (
+                  
                   <GraphVisualizer
                     capitals={capitals}
                     connections={connections}
-                    highlightedPath={result?.path || []}
+                    highlightedPath={parsePath(result?.path)}
                   />
                 ) : (
                   <div className="flex items-center flex-col">

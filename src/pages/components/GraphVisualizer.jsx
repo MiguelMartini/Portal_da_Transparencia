@@ -6,38 +6,27 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
-export function GraphVisualizer({
+function GraphVisualizer({
   capitals = [],
   connections = [],
   highlightedPath = []
 }) {
 
-  // 🔗 Cria pares consecutivos do caminho (A -> B, B -> C...)
   const highlightedEdgesSet = useMemo(() => {
     const set = new Set();
-
     for (let i = 0; i < highlightedPath.length - 1; i++) {
       const from = highlightedPath[i];
       const to = highlightedPath[i + 1];
-
       set.add(`${from}-${to}`);
       set.add(`${to}-${from}`);
     }
-
     return set;
   }, [highlightedPath]);
 
-  // 🔵 NODES (capitais)
   const nodes = useMemo(() => {
     return capitals.map((cap) => {
       const isInPath = highlightedPath.includes(cap.id);
-      const isStart = cap.id === highlightedPath[0];
-      const isEnd = cap.id === highlightedPath[highlightedPath.length - 1];
-
-      let background = '#3b82f6';
-
-      if (isStart || isEnd) background = '#ef4444';
-      else if (isInPath) background = '#22c55e';
+      let background = isInPath ? '#ff0000' : '#3b82f6';
 
       return {
         id: cap.id,
@@ -61,17 +50,15 @@ export function GraphVisualizer({
           alignItems: 'center',
           justifyContent: 'center',
           fontSize: 10,
-          border: 'none'
+          zIndex: isInPath ? 10 : 1
         }
       };
     });
   }, [capitals, highlightedPath]);
 
-  // 🔗 EDGES (conexões)
   const edges = useMemo(() => {
     return connections.map((conn) => {
-      const isHighlighted =
-        highlightedEdgesSet.has(`${conn.from}-${conn.to}`);
+      const isHighlighted = highlightedEdgesSet.has(`${conn.from}-${conn.to}`);
 
       return {
         id: `${conn.from}-${conn.to}`,
@@ -80,16 +67,19 @@ export function GraphVisualizer({
         label: `${conn.distance} km`,
         animated: isHighlighted,
         style: {
-          stroke: isHighlighted ? '#22c55e' : '#94a3b8',
+          stroke: isHighlighted ? '#ff0000' : '#3F3F3F',
           strokeWidth: isHighlighted ? 3 : 1.5
         },
         labelStyle: {
           fontSize: 12,
-          fill: '#475569'
+          fill: isHighlighted ? '#ff0000' : '#3F3F3F',
+          fontWeight: isHighlighted ? 'bold' : 'normal'
         },
         markerEnd: {
-          type: MarkerType.ArrowClosed
-        }
+          type: MarkerType.ArrowClosed,
+          color: isHighlighted ? '#ff0000' : '#3F3F3F'
+        },
+        zIndex: isHighlighted ? 10 : 1
       };
     });
   }, [connections, highlightedEdgesSet]);
@@ -109,3 +99,4 @@ export function GraphVisualizer({
     </div>
   );
 }
+export default GraphVisualizer;
