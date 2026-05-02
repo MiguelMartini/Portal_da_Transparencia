@@ -5,26 +5,33 @@ import GraphVisualizer from "./components/GraphVisualizer.jsx";
 import { adaptGraphData } from "./utils/graphAdapter.js";
 import { Spinner } from "@/Components/ui/spinner.jsx";
 import RouteConfig from "./components/RouteConfig.jsx";
-import {
-  getRota,
-  selectAlgorithm,
-} from "@/services/graphService.js";
+import { getGraph, selectAlgorithm } from "@/services/graphService.js";
 
 function Grafo() {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const [algorithm, setAlgorithm] = useState("");
+
   const [result, setResult] = useState(null);
+  const [cost, setCost] = useState(null);
+  const [totalCost, setTotalCost] = useState(null);
 
   // capitals = vertices | connections = arestas
   const [capitals, setCapitals] = useState([]);
   const [connections, setConnections] = useState([]);
 
+// Limpa os estados para que reinicie o resultado
+  useEffect(() => {
+    setResult(null);
+    setCost(null);
+    setTotalCost(null);
+  }, [origin, destination, algorithm]);
+
   // gerando grafo
   useEffect(() => {
     const fetchGraph = async () => {
       try {
-        const data = await getRota();
+        const data = await getGraph();
         const { capitals, connections } = adaptGraphData(data);
         setCapitals(capitals);
         setConnections(connections);
@@ -39,9 +46,21 @@ function Grafo() {
   // func geradora do calculo
   const connect = async () => {
     try {
-      const normalized = algorithm.trim().toLowerCase();   
-      const data = await selectAlgorithm(normalized, origin, destination)
-      setResult(data)
+      const normalized = algorithm.trim().toLowerCase();
+      const data = await selectAlgorithm(normalized, origin, destination);
+      console.log(data);
+      setResult(data.path);
+      setCost(data.cost);
+      setTotalCost(data.total_cost ?? null);
+
+      console.log(
+        "Path:",
+        data.path,
+        "cost:",
+        data.cost,
+        "TotalCost:",
+        data.total_cost,
+      );
     } catch (err) {
       console.log(err.response?.data);
     }
@@ -49,26 +68,28 @@ function Grafo() {
 
   // conversao da rota para string de vertices
   const parsePath = (rawPath) => {
-  if (!rawPath) return [];
+    if (!rawPath) return [];
 
-  const nodes = [];
+    const nodes = [];
 
-  rawPath.forEach((item, index) => {
-    const [from, to] = item.split(" - ");
+    rawPath.forEach((item, index) => {
+      const [from, to] = item.split(" - ");
 
-    if (index === 0) nodes.push(from);
-    nodes.push(to);
-  });
+      if (index === 0) nodes.push(from);
+      nodes.push(to);
+    });
 
-  return nodes;
-};
+    return nodes;
+  };
 
-// limpa selecao
+  // limpa selecao
   const clear = () => {
     setOrigin("");
     setDestination("");
     setAlgorithm("");
     setResult(null);
+    setCost(null);
+    setTotalCost(null);
   };
 
   const getCapitalName = (id) => {
@@ -82,7 +103,6 @@ function Grafo() {
       <div className="flex-1 bg-linear-to-br from-blue-50 to-slate-100 p-6">
         <div className="max-w-400 mx-auto">
           <div className="grid lg:grid-cols-3 gap-6">
-            
             {/* Painel */}
             <div className="lg:col-span-1 space-y-4 ">
               <RouteConfig
@@ -98,14 +118,23 @@ function Grafo() {
               />
 
               {/* Resultado */}
-              {result && (
+              {result && result.length > 0 && (
                 <div className="bg-green-50 border-2 border-green-300 rounded-lg p-6">
                   <h3 className="text-xl font-bold mb-2">Melhor Rota</h3>
-                  <p className="text-md font-semibold mb-2">Algoritmo: {algorithm}</p>
+                  <p className="text-md font-semibold mb-2">
+                    Algoritmo: {algorithm}
+                  </p>
 
-                  <p className="mb-3">Custo: R${result.cost.toFixed(2)}</p>
+                  <p className="mb-3">Custo: R${cost.toFixed(2)}</p>
+                  {(algorithm === "kruskal" || algorithm === "g-kruskal") &&
+                    totalCost !== null && (
+                      <p className="mb-3">
+                        Custo Cosntrução: Só nos de ferrovia R$
+                        {totalCost.toFixed(2)}
+                      </p>
+                    )}
 
-                  {result.path.map((id, index) => (
+                  {result.map((id, index) => (
                     <div key={id}>
                       {index + 1}. {getCapitalName(id)}
                     </div>
@@ -118,11 +147,10 @@ function Grafo() {
             <div className="lg:col-span-2">
               <div className="bg-white rounded-lg shadow-md p-6 h-212.5">
                 {capitals.length > 0 && connections.length > 0 ? (
-                  
                   <GraphVisualizer
                     capitals={capitals}
                     connections={connections}
-                    highlightedPath={parsePath(result?.path)}
+                    highlightedPath={parsePath(result)}
                   />
                 ) : (
                   <div className="flex items-center flex-col">
