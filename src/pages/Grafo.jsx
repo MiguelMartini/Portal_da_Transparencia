@@ -16,15 +16,16 @@ function Grafo() {
   const [algorithm, setAlgorithm] = useState("");
   const [result, setResult] = useState(null);
 
+  // capitals = vertices | connections = arestas
   const [capitals, setCapitals] = useState([]);
   const [connections, setConnections] = useState([]);
 
+  // gerando grafo
   useEffect(() => {
     const fetchGraph = async () => {
       try {
         const data = await getRota();
         const { capitals, connections } = adaptGraphData(data);
-
         setCapitals(capitals);
         setConnections(connections);
       } catch (err) {
@@ -35,17 +36,18 @@ function Grafo() {
     fetchGraph();
   }, []);
 
+  // func geradora do calculo
   const connect = async () => {
     try {
       const normalized = algorithm.trim().toLowerCase();   
       const data = await selectAlgorithm(normalized, origin, destination)
       setResult(data)
-      console.log("Teste:",data?.path)
     } catch (err) {
       console.log(err.response?.data);
     }
   };
 
+  // conversao da rota para string de vertices
   const parsePath = (rawPath) => {
   if (!rawPath) return [];
 
@@ -54,13 +56,14 @@ function Grafo() {
   rawPath.forEach((item, index) => {
     const [from, to] = item.split(" - ");
 
-    if (index === 0) nodes.push(from); // primeiro nó
-    nodes.push(to); // próximos nós
+    if (index === 0) nodes.push(from);
+    nodes.push(to);
   });
 
   return nodes;
 };
 
+// limpa selecao
   const clear = () => {
     setOrigin("");
     setDestination("");
@@ -68,7 +71,6 @@ function Grafo() {
     setResult(null);
   };
 
-  // 🔥 Nome da capital
   const getCapitalName = (id) => {
     const cap = capitals.find((c) => c.id === id);
     return cap ? cap.name : id;
@@ -77,7 +79,6 @@ function Grafo() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-
       <div className="flex-1 bg-linear-to-br from-blue-50 to-slate-100 p-6">
         <div className="max-w-400 mx-auto">
           <div className="grid lg:grid-cols-3 gap-6">
@@ -116,7 +117,6 @@ function Grafo() {
             {/* Grafo */}
             <div className="lg:col-span-2">
               <div className="bg-white rounded-lg shadow-md p-6 h-212.5">
-                {console.log("PATH FINAL:", result?.path)}
                 {capitals.length > 0 && connections.length > 0 ? (
                   
                   <GraphVisualizer

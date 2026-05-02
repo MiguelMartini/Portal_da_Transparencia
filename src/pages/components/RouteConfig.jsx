@@ -1,14 +1,4 @@
-function RouteConfig({
-  origin,
-  setOrigin,
-  destination,
-  setDestination,
-  algorithm,
-  setAlgorithm,
-  capitals,
-  connect,
-  clear,
-}) {
+function RouteConfig({ origin, setOrigin, destination, setDestination, algorithm, setAlgorithm, capitals, connect, clear}) {
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-2xl font-bold text-[#3F3F3F] mb-4">
@@ -44,7 +34,6 @@ function RouteConfig({
       </select>
 
       {/* Algoritmo */}
-
       <select
         value={algorithm}
         onChange={(e) => setAlgorithm(e.target.value)}
