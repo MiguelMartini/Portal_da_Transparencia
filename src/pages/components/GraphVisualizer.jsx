@@ -2,7 +2,8 @@ import React, { useMemo } from 'react';
 import ReactFlow, { Background, Controls, MarkerType} from 'reactflow';
 import 'reactflow/dist/style.css';
 
-function GraphVisualizer({ capitals = [], connections = [], highlightedPath = []}) {
+function GraphVisualizer({ capitals = [], connections = [], highlightedPath = [], highlightedEdges = []}) {
+
 // memoriza renderizacao das arestas do caminho
   const highlightedEdgesSet = useMemo(() => {
     const set = new Set();
@@ -15,11 +16,22 @@ function GraphVisualizer({ capitals = [], connections = [], highlightedPath = []
     return set;
   }, [highlightedPath]);
 
+  const highlightedEdgesMap = useMemo(() => {
+  const map = new Map();
+
+  highlightedEdges.forEach(({ from, to, type }) => {
+    map.set(`${from}-${to}`, type);
+    map.set(`${to}-${from}`, type);
+  });
+
+  return map;
+}, [highlightedEdges]);
+
 // memoriza renderizacao dos vertices
   const nodes = useMemo(() => {
     return capitals.map((cap) => {
       const isInPath = highlightedPath.includes(cap.id);
-      let background = isInPath ? '#ff0000' : '#3b82f6';
+      let background = isInPath ? '#204786' : '#5192FB';
 
       return {
         id: cap.id,
@@ -50,33 +62,43 @@ function GraphVisualizer({ capitals = [], connections = [], highlightedPath = []
   }, [capitals, highlightedPath]);
 
 // memoriaza as arestas
-  const edges = useMemo(() => {
-    return connections.map((conn) => {
-      const isHighlighted = highlightedEdgesSet.has(`${conn.from}-${conn.to}`);
+ const edges = useMemo(() => {
+  return connections.map((conn) => {
+    const key = `${conn.from}-${conn.to}`;
+    const type = highlightedEdgesMap.get(key);
 
-      return {
-        id: `${conn.from}-${conn.to}`,
-        source: conn.from,
-        target: conn.to,
-        label: `${conn.distance} km`,
-        animated: isHighlighted,
-        style: {
-          stroke: isHighlighted ? '#ff0000' : '#3F3F3F',
-          strokeWidth: isHighlighted ? 3 : 1.5
-        },
-        labelStyle: {
-          fontSize: 12,
-          fill: isHighlighted ? '#ff0000' : '#3F3F3F',
-          fontWeight: isHighlighted ? 'bold' : 'normal'
-        },
-        markerEnd: {
-          type: MarkerType.ArrowClosed,
-          color: isHighlighted ? '#ff0000' : '#3F3F3F'
-        },
-        zIndex: isHighlighted ? 10 : 1
-      };
-    });
-  }, [connections, highlightedEdgesSet]);
+    const isHighlighted = !!type;
+
+    let color = '#3F3F3F';
+
+    if (isHighlighted) {
+      color = type === 'ferrovia' ? '#16a34a' : '#ef4444';
+      // verde = ferrovia | vermelho = rodovia
+    }
+
+    return {
+      id: key,
+      source: conn.from,
+      target: conn.to,
+      label: `${conn.distance} km`,
+      animated: isHighlighted,
+      style: {
+        stroke: color,
+        strokeWidth: isHighlighted ? 3 : 1.5
+      },
+      labelStyle: {
+        fontSize: 12,
+        fill: color,
+        fontWeight: isHighlighted ? 'bold' : 'normal'
+      },
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        color: color
+      },
+      zIndex: isHighlighted ? 10 : 1
+    };
+  });
+}, [connections, highlightedEdgesMap]);
 
   return (
     <div style={{ width: '100%', height: '800px' }}>
