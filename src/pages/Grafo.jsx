@@ -20,13 +20,6 @@ function Grafo() {
   const [capitals, setCapitals] = useState([]);
   const [connections, setConnections] = useState([]);
 
-// Limpa os estados para que reinicie o resultado
-  useEffect(() => {
-    setResult(null);
-    setCost(null);
-    setTotalCost(null);
-  }, [origin, destination, algorithm]);
-
   // gerando grafo
   useEffect(() => {
     const fetchGraph = async () => {
@@ -66,21 +59,38 @@ function Grafo() {
     }
   };
 
+  // Limpa os estados para que reinicie o resultado
+  useEffect(() => {
+    setResult(null);
+    setCost(null);
+    setTotalCost(null);
+  }, [origin, destination, algorithm]);
+
   // conversao da rota para string de vertices
   const parsePath = (rawPath) => {
     if (!rawPath) return [];
 
-    const nodes = [];
+    return rawPath.map((item) => {
+      const [from, to, type] = item.split(" - ");
 
-    rawPath.forEach((item, index) => {
-      const [from, to] = item.split(" - ");
-
-      if (index === 0) nodes.push(from);
-      nodes.push(to);
+      return {
+        from,
+        to,
+        type: type?.trim().toLowerCase()
+      };
     });
-
-    return nodes;
   };
+
+  const parsedEdges = parsePath(result);
+
+const highlightedNodes = (() => {
+  if (!parsedEdges.length) return [];
+
+  const nodes = [parsedEdges[0].from];
+  parsedEdges.forEach((edge) => nodes.push(edge.to));
+
+  return nodes;
+})();
 
   // limpa selecao
   const clear = () => {
@@ -150,7 +160,8 @@ function Grafo() {
                   <GraphVisualizer
                     capitals={capitals}
                     connections={connections}
-                    highlightedPath={parsePath(result)}
+                    highlightedPath={highlightedNodes}
+                    highlightedEdges={parsedEdges}
                   />
                 ) : (
                   <div className="flex items-center flex-col">
