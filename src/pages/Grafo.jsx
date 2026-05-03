@@ -6,6 +6,7 @@ import { adaptGraphData } from "./utils/graphAdapter.js";
 import { Spinner } from "@/Components/ui/spinner.jsx";
 import RouteConfig from "../Components/RouteConfig.jsx";
 import { getGraph, selectAlgorithm } from "@/services/graphService.js";
+import { formatCurrency } from "./utils/formatCurrency.js";
 
 function Grafo() {
   const [origin, setOrigin] = useState("");
@@ -135,12 +136,11 @@ function Grafo() {
                     Algoritmo: {algorithm}
                   </p>
 
-                  <p className="mb-3">Custo: R${cost.toFixed(2)}</p>
+                  <p className="mb-3">Custo da viagem: {formatCurrency(cost)}</p>
                   {(algorithm === "kruskal" || algorithm === "genetico") &&
                     totalCost !== null && (
                       <p className="mb-3">
-                        Custo Cosntrução: Só nos de ferrovia R$
-                        {totalCost.toFixed(2)}
+                        Custo Cosntrução: {formatCurrency(totalCost)}
                       </p>
                     )}
 
