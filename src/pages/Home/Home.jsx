@@ -15,7 +15,7 @@ function Home() {
               Sistema de Rotas de Entrega
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Ferramenta educacional para visualização e cálculo de rotas ótimas entre as capitais brasileiras usando diferentes algoritmos vistso na disciplinade Inteligência Artificial
+              Ferramenta educacional para visualização e cálculo de rotas ótimas entre as capitais brasileiras, usando diferentes algoritmos vistos na disciplina de Inteligência Artificial
             </p>
             <div className="pt-4">
               <Link
@@ -119,7 +119,7 @@ function Home() {
                 <div>
                   <h4 className="font-bold text-[#3F3F3F] text-lg mb-2">Visualize o Resultado</h4>
                   <p className="text-gray-600">
-                    A melhor rota aparecerá destacada em verde no grafo visual
+                    A melhor rota aparecerá destacada no grafo visual
                   </p>
                 </div>
               </div>

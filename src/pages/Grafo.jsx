@@ -136,7 +136,9 @@ function Grafo() {
                     Algoritmo: {algorithm}
                   </p>
 
-                  <p className="mb-3">Custo da viagem: {formatCurrency(cost)}</p>
+                  <p className="mb-3">
+                    Custo da viagem: {formatCurrency(cost)}
+                  </p>
                   {(algorithm === "kruskal" || algorithm === "genetico") &&
                     totalCost !== null && (
                       <p className="mb-3">
@@ -149,6 +151,10 @@ function Grafo() {
                       {index + 1}. {getCapitalName(id)}
                     </div>
                   ))}
+                  <div className="mt-4">
+                    <p>Rodovia - <span className="text-[#ef4444] font-semibold ">Vermelho</span></p>
+                    <p>Ferrovia - <span className="text-[#16a34a] font-semibold ">Verde</span></p>
+                  </div>
                 </div>
               )}
             </div>
