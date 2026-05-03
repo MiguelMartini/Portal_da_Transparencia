@@ -142,7 +142,7 @@ function Grafo() {
                   {(algorithm === "kruskal" || algorithm === "genetico") &&
                     totalCost !== null && (
                       <p className="mb-3">
-                        Custo Cosntrução: {formatCurrency(totalCost)}
+                        Custo Construção: {formatCurrency(totalCost)}
                       </p>
                     )}
 
