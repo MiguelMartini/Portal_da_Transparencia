@@ -40,9 +40,9 @@ function RouteConfig({ origin, setOrigin, destination, setDestination, algorithm
         className="w-full p-3 border mb-4 rounded-lg"
       >
         <option value="">Selecione o algoritmo</option>
-        <option value="A-Estrela">Rodovia</option>
+        <option value="A-Estrela">Rodovia (A*)</option>
         <option value="kruskal">Rodovia mais Ferrovia (Kruskal)</option>
-        <option value="g-kruskal">Rodovia mais Ferrovia (Genetico)</option>
+        <option value="genetico">Rodovia mais Ferrovia (Genético)</option>
       </select>
 
       <div className="flex gap-2">

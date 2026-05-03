@@ -1,4 +1,4 @@
-// Mapa fixo das capitais
+// Mapeia os vértices, fixando as capitais
 export const capitalByState = {
   RS: { id: 'porto-alegre', name: 'Porto Alegre', x: 460, y: 610 },
   SC: { id: 'florianopolis', name: 'Florianópolis', x: 500, y: 570 },
@@ -27,32 +27,4 @@ export const capitalByState = {
   AM: { id: 'manaus', name: 'Manaus', x: 200, y: 100 },
   RO: { id: 'porto-velho', name: 'Porto Velho', x: 180, y: 180 },
   AC: { id: 'rio-branco', name: 'Rio Branco', x: 100, y: 150 },
-};
-
-// Função correta para construir o grafo a partir da API
-export const buildGraphData = (lista_adjacencias) => {
-  const graph = new Map();
-
-  // criar nós
-  Object.keys(lista_adjacencias).forEach((uf) => {
-    graph.set(uf, new Map());
-  });
-
-  // criar conexões bidirecionais
-  Object.entries(lista_adjacencias).forEach(([from, neighbors]) => {
-    Object.entries(neighbors).forEach(([to, distance]) => {
-      graph.get(from).set(to, distance);
-      graph.get(to).set(from, distance);
-    });
-  });
-
-  // montar capitais para renderização
-  const capitals = Object.keys(lista_adjacencias).map((uf) => ({
-    id: uf,
-    name: capitalByState[uf].name,
-    x: capitalByState[uf].x,
-    y: capitalByState[uf].y,
-  }));
-
-  return { graph, capitals };
 };

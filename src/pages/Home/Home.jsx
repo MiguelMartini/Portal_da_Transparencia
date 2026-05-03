@@ -49,7 +49,7 @@ function Home() {
               </div>
               <h3 className="text-xl font-bold text-[#3F3F3F] text-center mb-3">Algoritmos</h3>
               <p className="text-gray-600 text-center">
-                Diferentes algoritmos para calcular rotas: A*, A* com Kruskal, A* com algoritmo Genético, Kruskal (MST) e algoritmo Genético.
+                Diferentes algoritmos para calcular rotas: A*, Kruskal e Algoritmo Genético.
               </p>
             </div>
 
@@ -62,7 +62,7 @@ function Home() {
               </div>
               <h3 className="text-xl font-bold text-[#3F3F3F] text-center mb-3">Dados Reais</h3>
               <p className="text-gray-600 text-center">
-                Sistema utiliza dados das 27 capitais brasileiras com distâncias calculadas entre as principais rotas
+                Sistema utiliza as distâncias oferecidas pelo Google Maps das 27 capitais brasileiras com distâncias calculadas entre as principais rotas
               </p>
             </div>
           </div>
@@ -93,9 +93,9 @@ function Home() {
                   2
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#3F3F3F] text-lg mb-2">Selecione Origem e Destino</h4>
+                  <h4 className="font-bold text-[#3F3F3F] text-lg mb-2">Selecione Origem, Destino e Algoritmo</h4>
                   <p className="text-gray-600">
-                    Escolha as capitais de origem e destino nos menus de seleção
+                    Escolha as capitais de origem, destino e o algoritmo nos menus de seleção
                   </p>
                 </div>
               </div>
