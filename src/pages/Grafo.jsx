@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import Header from "./Home/Header.jsx";
 import Footer from "./Home/Footer.jsx";
-import GraphVisualizer from "./components/GraphVisualizer.jsx";
+import GraphVisualizer from "../Components/GraphVisualizer.jsx";
 import { adaptGraphData } from "./utils/graphAdapter.js";
 import { Spinner } from "@/Components/ui/spinner.jsx";
-import RouteConfig from "./components/RouteConfig.jsx";
+import RouteConfig from "../Components/RouteConfig.jsx";
 import { getGraph, selectAlgorithm } from "@/services/graphService.js";
 
 function Grafo() {
@@ -76,21 +76,21 @@ function Grafo() {
       return {
         from,
         to,
-        type: type?.trim().toLowerCase()
+        type: type?.trim().toLowerCase(),
       };
     });
   };
 
   const parsedEdges = parsePath(result);
 
-const highlightedNodes = (() => {
-  if (!parsedEdges.length) return [];
+  const highlightedNodes = (() => {
+    if (!parsedEdges.length) return [];
 
-  const nodes = [parsedEdges[0].from];
-  parsedEdges.forEach((edge) => nodes.push(edge.to));
+    const nodes = [parsedEdges[0].from];
+    parsedEdges.forEach((edge) => nodes.push(edge.to));
 
-  return nodes;
-})();
+    return nodes;
+  })();
 
   // limpa selecao
   const clear = () => {
@@ -136,7 +136,7 @@ const highlightedNodes = (() => {
                   </p>
 
                   <p className="mb-3">Custo: R${cost.toFixed(2)}</p>
-                  {(algorithm === "kruskal" || algorithm === "g-kruskal") &&
+                  {(algorithm === "kruskal" || algorithm === "genetico") &&
                     totalCost !== null && (
                       <p className="mb-3">
                         Custo Cosntrução: Só nos de ferrovia R$

@@ -19,7 +19,7 @@ function Footer() {
 
         <div className="text-xs pt-4">
           <p>
-            Copyright © 2022 Instituto Federal de Santa Catarina IFSC
+            Copyright © 2026 FABRICIO IARONKA, MIGUEL MARTINI, VINICIUS GONCALVES, VITOR MONTEIRO, YGOR CAVALHEIRO
           </p>
           <p>Todos os Direitos Reservados.</p>
         </div>
