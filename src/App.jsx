@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home/Home'
 import Grafo from './pages/Grafo'
-import './App.css'
 
 function App() {
   return (
