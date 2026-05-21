@@ -5,7 +5,7 @@ import GraphVisualizer from "../Components/GraphVisualizer.jsx";
 import { adaptGraphData } from "./utils/graphAdapter.js";
 import { Spinner } from "@/Components/ui/spinner.jsx";
 import RouteConfig from "../Components/RouteConfig.jsx";
-import { getGraph, selectAlgorithm } from "@/services/graphService.js";
+import { getGraph2, selectAlgorithm } from "@/services/graphService.js";
 import { formatCurrency } from "./utils/formatCurrency.js";
 
 function Grafo() {
@@ -23,10 +23,12 @@ function Grafo() {
 
   // gerando grafo
   useEffect(() => {
-    const fetchGraph = async () => {
+    const fetchDefaultGraph = async () => {
       try {
-        const data = await getGraph();
+        const data = await getGraph2();
+
         const { capitals, connections } = adaptGraphData(data);
+
         setCapitals(capitals);
         setConnections(connections);
       } catch (err) {
@@ -34,27 +36,27 @@ function Grafo() {
       }
     };
 
-    fetchGraph();
+    fetchDefaultGraph();
   }, []);
 
   // func geradora do calculo
   const connect = async () => {
     try {
       const normalized = algorithm.trim().toLowerCase();
+
       const data = await selectAlgorithm(normalized, origin, destination);
-      console.log(data);
+
       setResult(data.path);
       setCost(data.cost);
       setTotalCost(data.total_cost ?? null);
 
-      console.log(
-        "Path:",
-        data.path,
-        "cost:",
-        data.cost,
-        "TotalCost:",
-        data.total_cost,
-      );
+      // Atualiza o grafo SOMENTE ao calcular
+      const graphData = await getGraph2(normalized);
+
+      const adapted = adaptGraphData(graphData);
+
+      setCapitals(adapted.capitals);
+      setConnections(adapted.connections);
     } catch (err) {
       console.log(err.response?.data);
     }
@@ -152,8 +154,18 @@ function Grafo() {
                     </div>
                   ))}
                   <div className="mt-4">
-                    <p>Rodovia - <span className="text-[#ef4444] font-semibold ">Vermelho</span></p>
-                    <p>Ferrovia - <span className="text-[#16a34a] font-semibold ">Verde</span></p>
+                    <p>
+                      Rodovia -{" "}
+                      <span className="text-[#ef4444] font-semibold ">
+                        Vermelho
+                      </span>
+                    </p>
+                    <p>
+                      Ferrovia -{" "}
+                      <span className="text-[#16a34a] font-semibold ">
+                        Verde
+                      </span>
+                    </p>
                   </div>
                 </div>
               )}

@@ -50,3 +50,16 @@ export const getGraph = async () => {
   const response = await api.get("/grafo");
   return response.data;
 };
+
+export const getGraph2 = async (algorithm = "") => {
+  switch(algorithm){
+    case "kruskal":
+      return (await api.get("/gerar/kruskal")).data;
+
+    case "genetico":
+      return (await api.get("/gerar/genetico")).data;
+
+    default:
+      return (await api.get("/grafo")).data
+    }
+};
