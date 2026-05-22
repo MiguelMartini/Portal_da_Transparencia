@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import ReactFlow, { Controls, MarkerType } from 'reactflow';
-// Verifique se o nome do arquivo da imagem bate com o que você salvou na pasta assets
 import mapaBrasil from '../assets/mapaBrasil.png'; 
 import 'reactflow/dist/style.css';
 
@@ -45,7 +44,7 @@ function GraphVisualizer({ capitals = [], connections = [], highlightedPath = []
 
       return {
         id: cap.id,
-        position: { x: cap.x * 3, y: cap.y * 3 }, // Mantive a sua lógica de multiplicar por 3
+        position: { x: cap.x * 3, y: cap.y * 3 }, 
         data: {
           label: (
             <div style={{ textAlign: 'center' }}>
